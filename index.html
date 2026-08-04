@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Security Solutions — IoT Sandbox</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#060c1e;
+    --navy-900:#0a1330;
+    --navy-800:#0e1c40;
+    --navy-700:#132a56;
+    --cyan-400:#38d3f0;
+    --cyan-300:#7fe6f7;
+    --page-bg:#eef3f8;
+    --ink-900:#0d1b33;
+    --ink-600:#4a5670;
+    --blue-cta:#1656c9;
+  }
+  body{ font-family:'Inter',sans-serif; background:var(--page-bg); color:var(--ink-900); }
+  .nss-section{ padding:72px 0 88px; }
+  .nss-eyebrow{
+    display:inline-flex; align-items:center; gap:.5rem;
+    font-size:.78rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--blue-cta); background:#dbe9fb; padding:.35rem .9rem; border-radius:999px;
+  }
+  .nss-title{
+    font-family:'Playfair Display',serif; font-weight:700;
+    font-size:clamp(1.9rem, 3.2vw, 2.6rem); color:var(--ink-900); margin:.75rem 0 .25rem;
+  }
+  .nss-squiggle{ display:block; width:52px; height:18px; margin:0 auto 14px; }
+  .nss-tagline{ color:var(--ink-600); font-size:1rem; max-width:640px; margin:0 auto; }
+
+  .nss-card{
+    position:relative; border-radius:18px; overflow:hidden; aspect-ratio:4/5;
+    background:radial-gradient(120% 120% at 20% 15%, var(--navy-700) 0%, var(--navy-900) 55%, var(--navy-950) 100%);
+    box-shadow:0 10px 24px rgba(10,19,48,.18);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .nss-card:hover{ transform:translateY(-4px); box-shadow:0 16px 34px rgba(10,19,48,.28); }
+  .nss-card svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .nss-card-label{
+    position:absolute; left:0; right:0; bottom:0; padding:16px 18px 18px;
+    background:linear-gradient(180deg, rgba(6,12,30,0) 0%, rgba(6,12,30,.85) 60%, rgba(6,12,30,.95) 100%);
+  }
+  .nss-card-num{ color:var(--cyan-300); font-size:.72rem; font-weight:700; letter-spacing:.08em; }
+  .nss-card-title{ color:#fff; font-weight:700; font-size:1.02rem; margin-top:2px; line-height:1.25; }
+
+  .nss-desc{ color:var(--ink-600); font-size:.92rem; line-height:1.55; margin-top:14px; padding:0 4px; }
+  .nss-col{ margin-bottom:8px; }
+
+  .nss-cta-wrap{ text-align:center; margin-top:52px; }
+  .nss-cta{
+    background:var(--navy-900); color:#fff; font-weight:600; font-size:.95rem;
+    padding:.75rem 1.9rem; border-radius:999px; border:none; text-decoration:none;
+    display:inline-block; transition:background .2s ease;
+  }
+  .nss-cta:hover{ background:var(--blue-cta); color:#fff; }
+
+
+  .nss-card-link{ display:block; text-decoration:none; }
+  .nss-view-link{
+    display:inline-block; margin-top:8px; font-size:.85rem; font-weight:600;
+    color:var(--blue-cta); text-decoration:none;
+  }
+  .nss-view-link:hover{ text-decoration:underline; }
+
+  @media (max-width:575.98px){
+    .nss-section{ padding:52px 0 60px; }
+    .nss-card{ aspect-ratio:16/10; }
+  }
+</style>
+</head>
+<body>
+
+<!--
+  DROP-IN BLOCK: insert this <section class="nss-section"> ... </section>
+  into the existing landing page directly after the "What We Offer" section
+  and before "What's our process" — no other markup on the page needs to change.
+  Requires Bootstrap 5 (already loaded on the page) + the two Google Fonts above
+  (add the <link> tags to <head> if not already present; the page already appears
+  to use a serif display face for "What We Offer" / "What's our process", so these
+  may already be loaded).
+-->
+
+<section class="nss-section">
+  <div class="container text-center">
+
+    <span class="nss-eyebrow">In partnership with C-DAC Thiruvananthapuram</span>
+    <h2 class="nss-title">Network Security Solutions</h2>
+
+    <svg class="nss-squiggle" viewBox="0 0 52 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 12C6 4 10 4 14 12C18 20 22 20 26 12C30 4 34 4 38 12C42 20 46 20 50 12" stroke="#1656c9" stroke-width="2.2" stroke-linecap="round"/>
+    </svg>
+
+    <p class="nss-tagline">A vendor-agnostic suite for policy-driven, orchestrated protection across your IoT network — from threat intelligence to the extreme edge.</p>
+
+    <div class="row g-4 mt-4 text-start">
+
+      <!-- 1. Threat Sharing Platform -->
+      <div class="col-12 col-sm-6 col-lg-4 nss-col">
+        <a href="product-tsp.html" class="nss-card-link"><div class="nss-card">
+          <svg viewBox="0 0 280 350" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="140" cy="140" r="34" fill="none" stroke="#38d3f0" stroke-width="2.5" opacity="0.9"/>
+            <circle cx="140" cy="140" r="7" fill="#7fe6f7"/>
+            <g stroke="#38d3f0" stroke-width="2" opacity="0.8">
+              <line x1="140" y1="106" x2="140" y2="70"/>
+              <line x1="169" y1="123" x2="200" y2="103"/>
+              <line x1="169" y1="157" x2="200" y2="177"/>
+              <line x1="111" y1="123" x2="80" y2="103"/>
+              <line x1="111" y1="157" x2="80" y2="177"/>
+            </g>
+            <g fill="#7fe6f7">
+              <circle cx="140" cy="70" r="6"/>
+              <circle cx="200" cy="103" r="6"/>
+              <circle cx="200" cy="177" r="6"/>
+              <circle cx="80" cy="103" r="6"/>
+              <circle cx="80" cy="177" r="6"/>
+            </g>
+          </svg>
+          <div class="nss-card-label">
+            <div class="nss-card-num">01</div>
+            <div class="nss-card-title">Threat Sharing Platform</div>
+          </div>
+        </div>
+        </a>
+<p class="nss-desc">Centralized collection, enrichment and secure sharing of cyber threat intelligence across trusted organizations.</p>
+        <a href="product-tsp.html" class="nss-view-link">View details →</a>
+      </div>
+
+      <!-- 2. IoT Network Management System -->
+      <div class="col-12 col-sm-6 col-lg-4 nss-col">
+        <a href="product-iot-nms.html" class="nss-card-link"><div class="nss-card">
+          <svg viewBox="0 0 280 350" xmlns="http://www.w3.org/2000/svg">
+            <rect x="108" y="118" width="64" height="44" rx="6" fill="none" stroke="#38d3f0" stroke-width="2.5"/>
+            <line x1="118" y1="132" x2="150" y2="132" stroke="#7fe6f7" stroke-width="2"/>
+            <line x1="118" y1="142" x2="140" y2="142" stroke="#7fe6f7" stroke-width="2"/>
+            <line x1="118" y1="152" x2="145" y2="152" stroke="#7fe6f7" stroke-width="2"/>
+            <circle cx="90" cy="90" r="7" fill="none" stroke="#38d3f0" stroke-width="2"/>
+            <circle cx="190" cy="90" r="7" fill="none" stroke="#38d3f0" stroke-width="2"/>
+            <circle cx="90" cy="190" r="7" fill="none" stroke="#38d3f0" stroke-width="2"/>
+            <circle cx="190" cy="190" r="7" fill="none" stroke="#38d3f0" stroke-width="2"/>
+            <line x1="115" y1="118" x2="93" y2="97" stroke="#38d3f0" stroke-width="1.6"/>
+            <line x1="165" y1="118" x2="187" y2="97" stroke="#38d3f0" stroke-width="1.6"/>
+            <line x1="115" y1="162" x2="93" y2="183" stroke="#38d3f0" stroke-width="1.6"/>
+            <line x1="165" y1="162" x2="187" y2="183" stroke="#38d3f0" stroke-width="1.6"/>
+          </svg>
+          <div class="nss-card-label">
+            <div class="nss-card-num">02</div>
+            <div class="nss-card-title">IoT Network Management System</div>
+          </div>
+        </div>
+        </a>
+<p class="nss-desc">FCAPS-aligned device lifecycle management, secure onboarding and FOTA updates across on-prem and cloud IoT infrastructure.</p>
+        <a href="product-iot-nms.html" class="nss-view-link">View details →</a>
+      </div>
+
+      <!-- 3. IoT Security Policy Server -->
+      <div class="col-12 col-sm-6 col-lg-4 nss-col">
+        <a href="product-policy-server.html" class="nss-card-link"><div class="nss-card">
+          <svg viewBox="0 0 280 350" xmlns="http://www.w3.org/2000/svg">
+            <path d="M140 84 L176 98 V140 C176 172 158 192 140 200 C122 192 104 172 104 140 V98 Z" fill="none" stroke="#38d3f0" stroke-width="2.5"/>
+            <path d="M124 140 L136 152 L158 124" fill="none" stroke="#7fe6f7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="118" y="212" width="44" height="30" rx="3" fill="none" stroke="#38d3f0" stroke-width="2"/>
+            <line x1="126" y1="222" x2="154" y2="222" stroke="#7fe6f7" stroke-width="1.6"/>
+            <line x1="126" y1="230" x2="146" y2="230" stroke="#7fe6f7" stroke-width="1.6"/>
+          </svg>
+          <div class="nss-card-label">
+            <div class="nss-card-num">03</div>
+            <div class="nss-card-title">IoT Security Policy Server</div>
+          </div>
+        </div>
+        </a>
+<p class="nss-desc">Vendor-agnostic, template-based policy lifecycle management with AI/ML automation and dynamic OpenAPI generation.</p>
+        <a href="product-policy-server.html" class="nss-view-link">View details →</a>
+      </div>
+
+      <!-- 4. Network Edge Solution -->
+      <div class="col-12 col-sm-6 col-lg-4 nss-col">
+        <a href="product-network-edge.html" class="nss-card-link"><div class="nss-card">
+          <svg viewBox="0 0 280 350" xmlns="http://www.w3.org/2000/svg">
+            <rect x="96" y="120" width="88" height="60" rx="8" fill="none" stroke="#38d3f0" stroke-width="2.5"/>
+            <circle cx="114" cy="150" r="5" fill="#7fe6f7"/>
+            <circle cx="140" cy="150" r="5" fill="#7fe6f7"/>
+            <circle cx="166" cy="150" r="5" fill="#7fe6f7"/>
+            <path d="M96 150 H70 M184 150 H210" stroke="#38d3f0" stroke-width="2"/>
+            <path d="M70 150 a6 6 0 1 0 0.01 0" fill="none" stroke="#38d3f0" stroke-width="2"/>
+            <path d="M210 150 a6 6 0 1 0 0.01 0" fill="none" stroke="#38d3f0" stroke-width="2"/>
+            <path d="M140 120 V96 M132 104 L140 96 L148 104" fill="none" stroke="#7fe6f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="nss-card-label">
+            <div class="nss-card-num">04</div>
+            <div class="nss-card-title">Network Edge Solution</div>
+          </div>
+        </div>
+        </a>
+<p class="nss-desc">Programmable edge platform on COTS hardware with firewall, NAT, IPSec/IPDecap and WireGuard VPN tunnels.</p>
+        <a href="product-network-edge.html" class="nss-view-link">View details →</a>
+      </div>
+
+      <!-- 5. Network Security Orchestrator -->
+      <div class="col-12 col-sm-6 col-lg-4 nss-col">
+        <a href="product-orchestrator.html" class="nss-card-link"><div class="nss-card">
+          <svg viewBox="0 0 280 350" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="140" cy="140" r="16" fill="none" stroke="#7fe6f7" stroke-width="2.5"/>
+            <g stroke="#38d3f0" stroke-width="1.8" opacity="0.85">
+              <line x1="140" y1="124" x2="140" y2="92"/>
+              <line x1="153" y1="150" x2="185" y2="168"/>
+              <line x1="127" y1="150" x2="95" y2="168"/>
+              <line x1="153" y1="130" x2="182" y2="112"/>
+              <line x1="127" y1="130" x2="98" y2="112"/>
+            </g>
+            <g fill="none" stroke="#38d3f0" stroke-width="2">
+              <rect x="130" y="76" width="20" height="16" rx="3"/>
+              <rect x="176" y="160" width="20" height="16" rx="3"/>
+              <rect x="84" y="160" width="20" height="16" rx="3"/>
+              <rect x="172" y="102" width="20" height="16" rx="3"/>
+              <rect x="88" y="102" width="20" height="16" rx="3"/>
+            </g>
+          </svg>
+          <div class="nss-card-label">
+            <div class="nss-card-num">05</div>
+            <div class="nss-card-title">Network Security Orchestrator</div>
+          </div>
+        </div>
+        </a>
+<p class="nss-desc">Translates vendor-neutral policy into network-wide enforcement over NETCONF, RESTCONF, gNMI and SNMP.</p>
+        <a href="product-orchestrator.html" class="nss-view-link">View details →</a>
+      </div>
+
+      <!-- 6. TinyML IoT Hardware Platform -->
+      <div class="col-12 col-sm-6 col-lg-4 nss-col">
+        <a href="product-tinyml.html" class="nss-card-link"><div class="nss-card">
+          <svg viewBox="0 0 280 350" xmlns="http://www.w3.org/2000/svg">
+            <rect x="112" y="112" width="56" height="56" rx="4" fill="none" stroke="#38d3f0" stroke-width="2.5"/>
+            <rect x="128" y="128" width="24" height="24" rx="2" fill="none" stroke="#7fe6f7" stroke-width="2"/>
+            <g stroke="#38d3f0" stroke-width="2">
+              <line x1="112" y1="124" x2="96" y2="124"/>
+              <line x1="112" y1="140" x2="96" y2="140"/>
+              <line x1="112" y1="156" x2="96" y2="156"/>
+              <line x1="168" y1="124" x2="184" y2="124"/>
+              <line x1="168" y1="140" x2="184" y2="140"/>
+              <line x1="168" y1="156" x2="184" y2="156"/>
+              <line x1="124" y1="112" x2="124" y2="96"/>
+              <line x1="140" y1="112" x2="140" y2="96"/>
+              <line x1="156" y1="112" x2="156" y2="96"/>
+              <line x1="124" y1="168" x2="124" y2="184"/>
+              <line x1="140" y1="168" x2="140" y2="184"/>
+              <line x1="156" y1="168" x2="156" y2="184"/>
+            </g>
+          </svg>
+          <div class="nss-card-label">
+            <div class="nss-card-num">06</div>
+            <div class="nss-card-title">TinyML IoT Hardware Platform</div>
+          </div>
+        </div>
+        </a>
+<p class="nss-desc">Edge-AI hardware with on-board crypto (ATECC608C), TPM and NPU acceleration for on-device security ML.</p>
+        <a href="product-tinyml.html" class="nss-view-link">View details →</a>
+      </div>
+
+    </div>
+
+    <div class="nss-cta-wrap">
+      <a href="product-tsp.html" class="nss-cta">Explore Network Security Solutions →</a>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>
