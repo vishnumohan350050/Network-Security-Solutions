@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request Network Security Solutions — IoT Sandbox</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#060c1e; --navy-900:#0a1330; --navy-800:#0e1c40; --navy-700:#132a56;
+    --cyan-400:#38d3f0; --cyan-300:#7fe6f7;
+    --page-bg:#eef3f8; --ink-900:#0d1b33; --ink-600:#4a5670;
+    --blue-cta:#1656c9; --green:#1e8f5f;
+  }
+  body{ font-family:'Inter',sans-serif; background:var(--page-bg); color:var(--ink-900); }
+
+  .topbar{ background:var(--navy-950); padding:12px 0; }
+  .topbar a{ color:#9fc6ea; text-decoration:none; font-size:.85rem; }
+  .topbar a:hover{ color:#fff; }
+  .topbar .sep{ color:#3a4a6b; margin:0 6px; }
+
+  .f-hero{
+    background:radial-gradient(120% 160% at 15% 0%, var(--navy-700) 0%, var(--navy-900) 45%, var(--navy-950) 100%);
+    padding:48px 0 56px; color:#fff;
+  }
+  .f-eyebrow{
+    display:inline-flex; align-items:center; gap:.5rem; font-size:.75rem; font-weight:600;
+    letter-spacing:.06em; text-transform:uppercase; color:var(--cyan-300);
+    background:rgba(56,211,240,.12); border:1px solid rgba(56,211,240,.3);
+    padding:.3rem .85rem; border-radius:999px;
+  }
+  .f-title{ font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(1.8rem,3.6vw,2.4rem); margin:.85rem 0 .5rem; }
+  .f-tagline{ color:#cfe0f5; font-size:1rem; max-width:640px; margin-bottom:0; }
+
+  .f-session{
+    display:inline-flex; align-items:center; gap:.55rem; margin-top:1.1rem;
+    background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14);
+    border-radius:999px; padding:.4rem .9rem .4rem .5rem; font-size:.85rem; color:#dce8fa;
+  }
+  .f-session .avatar{
+    width:26px; height:26px; border-radius:50%; background:var(--cyan-400); color:#06121f;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.75rem;
+  }
+
+  .f-section{ padding:48px 0 64px; }
+
+  .f-product-card{
+    background:#fff; border:1.5px solid #dde6f0; border-radius:14px; padding:20px 22px;
+    display:flex; gap:16px; align-items:flex-start; cursor:pointer;
+    transition:border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    margin-bottom:14px;
+  }
+  .f-product-card:hover{ border-color:#b9d3f0; box-shadow:0 6px 16px rgba(10,19,48,.06); }
+  .f-product-card.checked{
+    border-color:var(--blue-cta); background:#f3f8ff;
+    box-shadow:0 6px 18px rgba(22,86,201,.12);
+  }
+
+  .f-check-box{
+    flex:none; width:22px; height:22px; border-radius:6px; border:2px solid #c7d6ea;
+    display:flex; align-items:center; justify-content:center; margin-top:2px;
+    transition:all .18s ease; background:#fff;
+  }
+  .f-product-card.checked .f-check-box{ background:var(--blue-cta); border-color:var(--blue-cta); }
+  .f-check-box svg{ opacity:0; transform:scale(.6); transition:all .15s ease; }
+  .f-product-card.checked .f-check-box svg{ opacity:1; transform:scale(1); }
+
+  .f-icon-wrap{
+    flex:none; width:48px; height:48px; border-radius:10px;
+    background:var(--navy-950); display:flex; align-items:center; justify-content:center;
+  }
+  .f-icon-wrap svg{ width:28px; height:28px; }
+
+  .f-product-body{ flex:1; min-width:0; }
+  .f-product-title{ font-weight:700; font-size:1.02rem; color:var(--ink-900); margin-bottom:3px; }
+  .f-product-desc{ color:var(--ink-600); font-size:.9rem; line-height:1.55; margin:0; }
+  .f-product-num{ font-size:.7rem; font-weight:700; color:#9fb3cf; letter-spacing:.05em; margin-bottom:2px; }
+
+  .f-side-card{
+    background:var(--navy-950); color:#fff; border-radius:16px; padding:26px 24px;
+    position:sticky; top:24px;
+  }
+  .f-side-card h3{ font-family:'Playfair Display',serif; font-size:1.15rem; margin-bottom:.6rem; }
+  .f-side-card p{ color:#a9bbd8; font-size:.86rem; line-height:1.55; }
+  .f-selected-count{
+    display:flex; align-items:baseline; gap:.4rem; margin:1.1rem 0 1.4rem;
+    padding-top:1.1rem; border-top:1px solid rgba(255,255,255,.12);
+  }
+  .f-selected-count .num{ font-family:'Playfair Display',serif; font-size:2.1rem; font-weight:700; color:var(--cyan-300); line-height:1; }
+  .f-selected-count .lbl{ font-size:.82rem; color:#a9bbd8; }
+  .f-selected-list{ list-style:none; padding:0; margin:0 0 1.4rem; font-size:.84rem; }
+  .f-selected-list li{ padding:5px 0; color:#dce8fa; border-bottom:1px dashed rgba(255,255,255,.1); }
+  .f-selected-list li:last-child{ border-bottom:none; }
+  .f-selected-empty{ color:#6d7fa0; font-size:.84rem; font-style:italic; }
+
+  .f-notes label{ font-size:.86rem; font-weight:600; color:var(--ink-900); margin-bottom:6px; display:block; }
+  .f-notes textarea{
+    width:100%; border:1.5px solid #dde6f0; border-radius:10px; padding:10px 12px;
+    font-family:'Inter',sans-serif; font-size:.9rem; resize:vertical; min-height:80px;
+  }
+  .f-notes textarea:focus{ outline:none; border-color:var(--blue-cta); }
+
+  .f-submit-btn{
+    width:100%; background:var(--blue-cta); color:#fff; font-weight:600; font-size:.95rem;
+    padding:.85rem 1.5rem; border-radius:999px; border:none; margin-top:6px;
+    transition:background .18s ease, opacity .18s ease;
+  }
+  .f-submit-btn:hover{ background:#0f3f9c; }
+  .f-submit-btn:disabled{ opacity:.5; cursor:not-allowed; }
+
+  .f-success{
+    display:none; text-align:center; padding:60px 20px;
+  }
+  .f-success.show{ display:block; }
+  .f-success .check-circle{
+    width:64px; height:64px; border-radius:50%; background:#e6f6ee; color:var(--green);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 18px;
+  }
+  .f-success h2{ font-family:'Playfair Display',serif; font-weight:700; font-size:1.5rem; margin-bottom:8px; }
+  .f-success p{ color:var(--ink-600); max-width:440px; margin:0 auto; }
+
+  @media (max-width:991.98px){
+    .f-side-card{ position:static; margin-top:8px; }
+  }
+  @media (max-width:575.98px){
+    .f-hero{ padding:36px 0 40px; }
+    .f-product-card{ flex-wrap:wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <a href="landing-nss-section.html">Home</a><span class="sep">/</span>
+    <a href="landing-nss-section.html">Network Security Solutions</a><span class="sep">/</span>
+    <span style="color:#fff;">Request Access</span>
+  </div>
+</div>
+
+<section class="f-hero">
+  <div class="container">
+    <span class="f-eyebrow">C-DAC Thiruvananthapuram · Network Solutions</span>
+    <h1 class="f-title">Request Network Security Solutions</h1>
+    <p class="f-tagline">Select the products or services you'd like to evaluate, and our team will get in touch to take it forward.</p>
+    <div class="f-session">
+      <span class="avatar" id="avatarInitial">U</span>
+      <span>Submitting as your registered account — <strong id="sessionLabel">logged-in client</strong></span>
+    </div>
+  </div>
+</section>
+
+<section class="f-section">
+  <div class="container">
+
+    <form id="leadForm">
+      <div class="row g-4">
+
+        <div class="col-lg-8">
+
+          <!-- 1 -->
+          <label class="f-product-card" data-name="Threat Sharing Platform (TSP)">
+            <input type="checkbox" name="products" value="Threat Sharing Platform (TSP)" class="visually-hidden">
+            <span class="f-check-box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2L5.4 10L11.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="f-icon-wrap">
+              <svg viewBox="0 0 96 96" fill="none"><circle cx="48" cy="48" r="14" fill="none" stroke="#38d3f0" stroke-width="2"/><circle cx="48" cy="48" r="4" fill="#7fe6f7"/><g stroke="#38d3f0" stroke-width="1.6" opacity="0.85"><line x1="48" y1="34" x2="48" y2="18"/><line x1="60" y1="41" x2="76" y2="30"/><line x1="60" y1="55" x2="76" y2="66"/><line x1="36" y1="41" x2="20" y2="30"/><line x1="36" y1="55" x2="20" y2="66"/></g><g fill="#7fe6f7"><circle cx="48" cy="18" r="4"/><circle cx="76" cy="30" r="4"/><circle cx="76" cy="66" r="4"/><circle cx="20" cy="30" r="4"/><circle cx="20" cy="66" r="4"/></g></svg>
+            </span>
+            <span class="f-product-body">
+              <span class="f-product-num">01 / 06</span>
+              <span class="f-product-title">Threat Sharing Platform (TSP)</span>
+              <p class="f-product-desc">Centralized threat collection and sharing system.</p>
+            </span>
+          </label>
+
+          <!-- 2 -->
+          <label class="f-product-card" data-name="IoT Network Management System (IoT NMS)">
+            <input type="checkbox" name="products" value="IoT Network Management System (IoT NMS)" class="visually-hidden">
+            <span class="f-check-box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2L5.4 10L11.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="f-icon-wrap">
+              <svg viewBox="0 0 96 96" fill="none"><rect x="32" y="38" width="32" height="20" rx="3" fill="none" stroke="#38d3f0" stroke-width="2"/><line x1="38" y1="45" x2="55" y2="45" stroke="#7fe6f7" stroke-width="1.6"/><line x1="38" y1="51" x2="50" y2="51" stroke="#7fe6f7" stroke-width="1.6"/><circle cx="20" cy="24" r="5" fill="none" stroke="#38d3f0" stroke-width="1.8"/><circle cx="76" cy="24" r="5" fill="none" stroke="#38d3f0" stroke-width="1.8"/><circle cx="20" cy="72" r="5" fill="none" stroke="#38d3f0" stroke-width="1.8"/><circle cx="76" cy="72" r="5" fill="none" stroke="#38d3f0" stroke-width="1.8"/><line x1="34" y1="38" x2="22" y2="27" stroke="#38d3f0" stroke-width="1.3"/><line x1="62" y1="38" x2="74" y2="27" stroke="#38d3f0" stroke-width="1.3"/><line x1="34" y1="58" x2="22" y2="69" stroke="#38d3f0" stroke-width="1.3"/><line x1="62" y1="58" x2="74" y2="69" stroke="#38d3f0" stroke-width="1.3"/></svg>
+            </span>
+            <span class="f-product-body">
+              <span class="f-product-num">02 / 06</span>
+              <span class="f-product-title">IoT Network Management System (IoT NMS)</span>
+              <p class="f-product-desc">IoT Network Management System that supports FCAPS based management of IoT infrastructure deployed in onsite and cloud IoT platforms.</p>
+            </span>
+          </label>
+
+          <!-- 3 -->
+          <label class="f-product-card" data-name="IoT Security Policy Management System">
+            <input type="checkbox" name="products" value="IoT Security Policy Management System" class="visually-hidden">
+            <span class="f-check-box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2L5.4 10L11.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="f-icon-wrap">
+              <svg viewBox="0 0 96 96" fill="none"><path d="M48 16 L68 24 V44 C68 60 58 70 48 74 C38 70 28 60 28 44 V24 Z" fill="none" stroke="#38d3f0" stroke-width="2"/><path d="M40 44 L46 50 L58 36" fill="none" stroke="#7fe6f7" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="f-product-body">
+              <span class="f-product-num">03 / 06</span>
+              <span class="f-product-title">IoT Security Policy Management System</span>
+              <p class="f-product-desc">Centralized security policy management system that supports vendor agnostic template-based policy and security framework management across the network.</p>
+            </span>
+          </label>
+
+          <!-- 4 -->
+          <label class="f-product-card" data-name="Network Edge Solution">
+            <input type="checkbox" name="products" value="Network Edge Solution" class="visually-hidden">
+            <span class="f-check-box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2L5.4 10L11.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="f-icon-wrap">
+              <svg viewBox="0 0 96 96" fill="none"><rect x="28" y="36" width="40" height="26" rx="5" fill="none" stroke="#38d3f0" stroke-width="2"/><circle cx="38" cy="49" r="2.6" fill="#7fe6f7"/><circle cx="48" cy="49" r="2.6" fill="#7fe6f7"/><circle cx="58" cy="49" r="2.6" fill="#7fe6f7"/><path d="M28 49 H16 M68 49 H80" stroke="#38d3f0" stroke-width="1.8"/></svg>
+            </span>
+            <span class="f-product-body">
+              <span class="f-product-num">04 / 06</span>
+              <span class="f-product-title">Network Edge Solution</span>
+              <p class="f-product-desc">Modular network edge platform that supports programmability of security features including packet steering, NAT, Firewall, Network Tunnels and WireGuard VPNs.</p>
+            </span>
+          </label>
+
+          <!-- 5 -->
+          <label class="f-product-card" data-name="Network Security Orchestration and Programmable Security Solution">
+            <input type="checkbox" name="products" value="Network Security Orchestration and Programmable Security Solution" class="visually-hidden">
+            <span class="f-check-box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2L5.4 10L11.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="f-icon-wrap">
+              <svg viewBox="0 0 96 96" fill="none"><circle cx="48" cy="48" r="9" fill="none" stroke="#7fe6f7" stroke-width="2"/><g stroke="#38d3f0" stroke-width="1.4" opacity="0.85"><line x1="48" y1="39" x2="48" y2="24"/><line x1="55" y1="53" x2="66" y2="60"/><line x1="41" y1="53" x2="30" y2="60"/><line x1="55" y1="44" x2="65" y2="37"/><line x1="41" y1="44" x2="31" y2="37"/></g></svg>
+            </span>
+            <span class="f-product-body">
+              <span class="f-product-num">05 / 06</span>
+              <span class="f-product-title">Network Security Orchestration and Programmable Security Solution</span>
+              <p class="f-product-desc">Centralized orchestrator and controller platform responsible for the translation of vendor neutral security policies and its network wide implementation. Also provides programmable interfaces for security orchestration.</p>
+            </span>
+          </label>
+
+          <!-- 6 -->
+          <label class="f-product-card" data-name="TinyML IoT Platform (Hardware)">
+            <input type="checkbox" name="products" value="TinyML IoT Platform (Hardware)" class="visually-hidden">
+            <span class="f-check-box"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7.2L5.4 10L11.5 3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="f-icon-wrap">
+              <svg viewBox="0 0 96 96" fill="none"><rect x="32" y="32" width="32" height="32" rx="3" fill="none" stroke="#38d3f0" stroke-width="2"/><rect x="42" y="42" width="12" height="12" rx="1.5" fill="none" stroke="#7fe6f7" stroke-width="1.6"/><g stroke="#38d3f0" stroke-width="1.6"><line x1="32" y1="40" x2="22" y2="40"/><line x1="32" y1="48" x2="22" y2="48"/><line x1="32" y1="56" x2="22" y2="56"/><line x1="64" y1="40" x2="74" y2="40"/><line x1="64" y1="48" x2="74" y2="48"/><line x1="64" y1="56" x2="74" y2="56"/><line x1="40" y1="32" x2="40" y2="22"/><line x1="48" y1="32" x2="48" y2="22"/><line x1="56" y1="32" x2="56" y2="22"/><line x1="40" y1="64" x2="40" y2="74"/><line x1="48" y1="64" x2="48" y2="74"/><line x1="56" y1="64" x2="56" y2="74"/></g></svg>
+            </span>
+            <span class="f-product-body">
+              <span class="f-product-num">06 / 06</span>
+              <span class="f-product-title">TinyML IoT Platform (Hardware)</span>
+              <p class="f-product-desc">TinyML IoT platform is a hardware platform for the development of ML based security at the extreme edge of IoT Network (IoT device platforms).</p>
+            </span>
+          </label>
+
+          <div class="f-notes mt-2">
+            <label for="notesField">Additional requirements <span style="font-weight:400;color:var(--ink-600);">(optional)</span></label>
+            <textarea id="notesField" name="notes" placeholder="Tell us anything specific about your use case, timeline, or deployment environment…"></textarea>
+          </div>
+
+        </div>
+
+        <div class="col-lg-4">
+          <div class="f-side-card">
+            <h3>Your request</h3>
+            <p>Pick as many solutions as you need — our team at C-DAC Thiruvananthapuram will reach out to plan next steps.</p>
+            <div class="f-selected-count">
+              <span class="num" id="selCount">0</span>
+              <span class="lbl">of 6 solutions<br>selected</span>
+            </div>
+            <ul class="f-selected-list" id="selList">
+              <li class="f-selected-empty">Nothing selected yet</li>
+            </ul>
+            <button type="submit" class="f-submit-btn" id="submitBtn" disabled>Submit Request</button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+    <div class="f-success" id="successPanel">
+      <div class="check-circle">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><path d="M6 15.5L12 21L24 8" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h2>Request received</h2>
+      <p>Thanks — your interest in <strong id="successCount">0</strong> solution(s) has been submitted. The C-DAC Thiruvananthapuram team will contact you shortly.</p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const cards = document.querySelectorAll('.f-product-card');
+  const submitBtn = document.getElementById('submitBtn');
+  const selCount = document.getElementById('selCount');
+  const selList = document.getElementById('selList');
+  const form = document.getElementById('leadForm');
+  const successPanel = document.getElementById('successPanel');
+  const successCount = document.getElementById('successCount');
+
+  function updateSummary(){
+    const checked = Array.from(document.querySelectorAll('input[name="products"]:checked'));
+    selCount.textContent = checked.length;
+    submitBtn.disabled = checked.length === 0;
+    if(checked.length === 0){
+      selList.innerHTML = '<li class="f-selected-empty">Nothing selected yet</li>';
+    } else {
+      selList.innerHTML = checked.map(c => `<li>${c.closest('.f-product-card').dataset.name}</li>`).join('');
+    }
+  }
+
+  cards.forEach(card => {
+    const input = card.querySelector('input[type="checkbox"]');
+    card.addEventListener('click', (e) => {
+      if(e.target.tagName.toLowerCase() !== 'input'){
+        input.checked = !input.checked;
+      }
+      card.classList.toggle('checked', input.checked);
+      updateSummary();
+    });
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const checked = document.querySelectorAll('input[name="products"]:checked').length;
+    if(checked === 0) return;
+    successCount.textContent = checked;
+    form.style.display = 'none';
+    successPanel.classList.add('show');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+
+  updateSummary();
+</script>
+
+</body>
+</html>
