@@ -119,6 +119,29 @@
   }
   .f-success h2{ font-family:'Playfair Display',serif; font-weight:700; font-size:1.5rem; margin-bottom:8px; }
   .f-success p{ color:var(--ink-600); max-width:440px; margin:0 auto; }
+  .f-cta-ghost{
+    margin-top:20px; background:transparent; color:var(--blue-cta); font-weight:600; font-size:.88rem;
+    border:1.5px solid var(--blue-cta); padding:.55rem 1.3rem; border-radius:999px; cursor:pointer;
+    transition:background .18s ease, color .18s ease;
+  }
+  .f-cta-ghost:hover{ background:var(--blue-cta); color:#fff; }
+
+  .f-error-banner{
+    display:none; align-items:center; justify-content:space-between; gap:12px;
+    background:#fdeceb; border:1px solid #f3b9b3; color:#8a2b23; border-radius:10px;
+    padding:12px 16px; font-size:.88rem; margin-top:18px;
+  }
+  .f-error-banner.show{ display:flex; }
+  .f-error-banner button{
+    background:none; border:none; color:#8a2b23; font-size:1.2rem; line-height:1; cursor:pointer; flex:none;
+  }
+
+  .f-submit-btn .spinner{
+    display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,.4);
+    border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; margin-right:8px;
+    vertical-align:-2px;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
 
   @media (max-width:991.98px){
     .f-side-card{ position:static; margin-top:8px; }
@@ -274,6 +297,13 @@
       </div>
       <h2>Request received</h2>
       <p>Thanks — your interest in <strong id="successCount">0</strong> solution(s) has been submitted. The C-DAC Thiruvananthapuram team will contact you shortly.</p>
+      <p style="font-size:.78rem;color:#9fb3cf;margin-top:14px;">Reference ID: <span id="refId" style="font-family:monospace;"></span></p>
+      <button type="button" class="f-cta-ghost" id="newRequestBtn">Submit another request</button>
+    </div>
+
+    <div class="f-error-banner" id="errorBanner" role="alert">
+      <span id="errorText">Something went wrong submitting your request. Please try again.</span>
+      <button type="button" id="dismissError" aria-label="Dismiss">&times;</button>
     </div>
 
   </div>
@@ -310,13 +340,89 @@
     });
   });
 
-  form.addEventListener('submit', (e) => {
+  const errorBanner = document.getElementById('errorBanner');
+  const errorText = document.getElementById('errorText');
+  const refId = document.getElementById('refId');
+  const newRequestBtn = document.getElementById('newRequestBtn');
+
+  function showError(msg){
+    errorText.textContent = msg;
+    errorBanner.classList.add('show');
+  }
+  document.getElementById('dismissError').addEventListener('click', () => {
+    errorBanner.classList.remove('show');
+  });
+
+  function genId(){
+    return 'REQ-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
+  }
+
+  async function persistLead(lead){
+    // Uses the artifact persistent-storage API when available (window.storage),
+    // so submissions are actually saved rather than just simulated in-memory.
+    // Stored as shared:true so every visitor's submissions land in one shared
+    // "leads:" list an admin view could later read back with window.storage.list('leads:', true).
+    if (window.storage && typeof window.storage.set === 'function') {
+      const result = await window.storage.set('leads:' + lead.id, JSON.stringify(lead), true);
+      if (!result) throw new Error('Storage write returned no result');
+      return true;
+    }
+    // Fallback for when this file is opened outside an environment that provides
+    // window.storage (e.g. a plain static file, or your production portal before
+    // the real backend endpoint is wired in below).
+    console.warn('window.storage unavailable — lead was not persisted:', lead);
+    return false;
+  }
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const checked = document.querySelectorAll('input[name="products"]:checked').length;
-    if(checked === 0) return;
-    successCount.textContent = checked;
-    form.style.display = 'none';
-    successPanel.classList.add('show');
+    errorBanner.classList.remove('show');
+
+    const checkedInputs = Array.from(document.querySelectorAll('input[name="products"]:checked'));
+    if (checkedInputs.length === 0) return;
+
+    const lead = {
+      id: genId(),
+      submittedAt: new Date().toISOString(),
+      products: checkedInputs.map(c => c.value),
+      notes: document.getElementById('notesField').value.trim(),
+    };
+
+    submitBtn.disabled = true;
+    const originalLabel = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<span class="spinner"></span>Submitting…';
+
+    try {
+      await persistLead(lead);
+
+      // ---- Real backend integration point ----
+      // Once your API endpoint exists, POST the same `lead` object here, e.g.:
+      // await fetch('/api/nss-leads', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(lead),
+      // });
+
+      successCount.textContent = lead.products.length;
+      refId.textContent = lead.id;
+      form.style.display = 'none';
+      successPanel.classList.add('show');
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    } catch (err) {
+      console.error('Lead submission failed:', err);
+      showError('We could not submit your request right now. Please try again in a moment.');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalLabel;
+    }
+  });
+
+  newRequestBtn.addEventListener('click', () => {
+    form.reset();
+    cards.forEach(card => card.classList.remove('checked'));
+    updateSummary();
+    submitBtn.innerHTML = 'Submit Request';
+    successPanel.classList.remove('show');
+    form.style.display = '';
     window.scrollTo({top: 0, behavior: 'smooth'});
   });
 
