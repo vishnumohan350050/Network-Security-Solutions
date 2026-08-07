@@ -331,10 +331,11 @@
 
   cards.forEach(card => {
     const input = card.querySelector('input[type="checkbox"]');
-    card.addEventListener('click', (e) => {
-      if(e.target.tagName.toLowerCase() !== 'input'){
-        input.checked = !input.checked;
-      }
+    // The card is a <label>, so clicking anywhere on it already natively
+    // toggles the wrapped checkbox — no manual toggling needed (that was
+    // causing a double-toggle that canceled itself out). Just react to the
+    // checkbox's own change event to sync the visual state + summary.
+    input.addEventListener('change', () => {
       card.classList.toggle('checked', input.checked);
       updateSummary();
     });
